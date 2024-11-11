@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import DecimalField, TextField
+
 
 
 class Buyer(models.Model):
