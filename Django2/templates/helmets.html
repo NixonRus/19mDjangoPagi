@@ -1,0 +1,32 @@
+<!--Страница выбора шлемов-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Купить игру</title>
+</head>
+
+{% extends 'menu.html' %}
+
+{% block pagename %}
+    <h1>Выбрать игру</h1>
+{% endblock %}
+
+{% block menu %}
+{{ block.super }}
+{% endblock %}}
+
+{% block content %}
+
+{% for i in games %}
+    <p>{{ i.title|title }} | {{ i.description|title }}. Стоимость {{ i.cost }}  <button>Купить</button></p>
+{% endfor %}
+
+{% endblock %}
+
+{% block register %}
+{{ block.super }}
+{% endblock %}
+
+</html>
+
