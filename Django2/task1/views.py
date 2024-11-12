@@ -2,7 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import UserRegister
 from .models import *
+from django.core.paginator import Paginator
 # Create your views here.
+
+numbers_of_page = 2
 
 
 def home_page(request):
@@ -10,11 +13,19 @@ def home_page(request):
 
 
 def buy_helm(request):
+    global numbers_of_page
+    if request.method == 'POST' and request.POST.get('numbers_of_page') is not None:
+        numbers_of_page = request.POST.get('numbers_of_page')
     title = 'Игры'
     games = Game.objects.all()
+    paginator = Paginator(games, numbers_of_page)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
         'games': games,
-        'title': title
+        'title': title,
+        'page_odj': page_obj,
+        'numbers_of_page': numbers_of_page
     }
 
     return render(request, 'helmets.html', context)
@@ -47,6 +58,7 @@ def sign_up_by_html(request):
                     info.update({'error': 'Пользователь уже существует'})
                     return render(request, 'registration_page.html', context)
             Buyer.objects.create(name=username, balance=1000, age=age)
+            menu = 'menu.html'
             return HttpResponse(f'Приветствуем, {username}!')
 
         else:
