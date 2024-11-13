@@ -5,26 +5,25 @@ from .models import *
 from django.core.paginator import Paginator
 # Create your views here.
 
-numbers_of_page = 2
-
 
 def home_page(request):
     return render(request, 'shop_gp.html')
 
 
 def buy_helm(request):
-    global numbers_of_page
     if request.method == 'POST' and request.POST.get('numbers_of_page') is not None:
-        numbers_of_page = request.POST.get('numbers_of_page')
+        request.session['numbers_of_page'] = int(request.POST.get('numbers_of_page'))
+
     title = 'Игры'
     games = Game.objects.all()
+    numbers_of_page = request.session.get('numbers_of_page', 5)
     paginator = Paginator(games, numbers_of_page)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'games': games,
         'title': title,
-        'page_odj': page_obj,
+        'page_obj': page_obj,
         'numbers_of_page': numbers_of_page
     }
 

@@ -7,7 +7,7 @@ from .models import *
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'cost', 'size', 'age_limited')
+    list_display = ('id', 'title', 'description', 'cost', 'size', 'age_limited')
     fieldsets = (
         ('Description', {
             'fields':
